@@ -1,0 +1,18 @@
+<% if notice %>
+  <p id="notice"><%= notice %></p>
+<% end %>
+
+<h1>Your Pragmatic Catalog</h1>
+
+<% @products.each do |product| %>
+  <div class="entry">
+    <%= image_tag(product.image_url) %>
+    <h3><%= product.title %></h3>
+    <%# 잠재적 보안 위협(html스타일을 그대로 실행함) %>
+    <%= sanitize(product.description) %>
+    <div class="price_line">
+      <%# https://apidock.com/rails/ActionView/Helpers/NumberHelper/number_to_currency %>
+      <span class="price"><%= number_to_currency(product.price) %></span>
+    </div>
+  </div>
+<% end %>

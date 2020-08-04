@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>DepotV2</title>
+    <title>Pragprog Books Online Store</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
@@ -10,6 +10,23 @@
   </head>
 
   <body class="<%= controller.controller_name %>">
-    <%= yield %>
+    <div id="banner">
+      <%= image_tag("logo.png") %>
+      <%= @page_title || "Pragmatic Bookshelf" %>
+    </div>
+    <div id="columns">
+      <div id="side">
+        <ul>
+          <li style="color: white;"><%= @time %></li>
+          <li><a href="http://www...">Home</a></li>
+          <li><a href="http://www.../faq">Questions</a></li>
+          <li><a href="http://www.../news">News</a></li>
+          <li><a href="http://www.../contact">Contact</a></li>
+        </ul>
+      </div>
+      <div id="main">
+        <%= yield %>
+      </div>
+    </div>
   </body>
 </html>

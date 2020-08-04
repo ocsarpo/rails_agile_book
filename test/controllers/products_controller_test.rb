@@ -52,4 +52,13 @@ class ProductsControllerTest < ActionDispatch::IntegrationTest
 
     assert_redirected_to products_url
   end
+
+  test "index assert_select" do
+    get products_path
+
+    assert_response :success
+    assert_select 'h1', 'Listing products'
+    assert_select '#columns #side a', minimum: 4
+    assert_select '.list_actions a', minimum: 3
+  end
 end
