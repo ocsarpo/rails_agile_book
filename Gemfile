@@ -48,6 +48,10 @@ group :test do
   gem 'selenium-webdriver'
   # Easy installation and use of web drivers to run system tests with browsers
   gem 'webdrivers'
+
+  # NoMethodError: assigns has been extracted to a gem. To continue using it,
+  #   add `gem 'rails-controller-testing'` to your Gemfile.
+  gem 'rails-controller-testing'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
