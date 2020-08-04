@@ -34,3 +34,4 @@ en:
     errors:
       messages:
         taken: has already been taken
+        short: 'is too short (minimum is 10 characters)'
