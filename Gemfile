@@ -27,6 +27,10 @@ gem 'jbuilder', '~> 2.7'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.2', require: false
+# assert_select_jquery 사용하려고 설치함
+# webpack jquery 설치방법
+# https://www.botreetechnologies.com/blog/introducing-jquery-in-rails-6-using-webpacker
+gem 'jquery-rails'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

@@ -24,7 +24,8 @@ class CartsController < ApplicationController
   # POST /carts
   # POST /carts.json
   def create
-    @cart = Cart.new(cart_params)
+    # @cart = Cart.new(cart_params)
+    @cart = current_cart
 
     respond_to do |format|
       if @cart.save
@@ -59,7 +60,7 @@ class CartsController < ApplicationController
     session[:cart_id] = nil
 
     respond_to do |format|
-      format.html { redirect_to store_url, notice: 'Your cart is currently empty' }
+      format.html { redirect_to store_url }
       format.json { head :no_content }
     end
   end

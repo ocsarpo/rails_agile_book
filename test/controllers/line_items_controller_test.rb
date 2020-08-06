@@ -22,7 +22,7 @@ class LineItemsControllerTest < ActionDispatch::IntegrationTest
     end
 
     # assert_redirected_to line_item_url(LineItem.last)
-    assert_redirected_to cart_path(assigns(:line_item).cart)
+    assert_redirected_to store_path
   end
 
   test "should show line_item" do
@@ -37,7 +37,7 @@ class LineItemsControllerTest < ActionDispatch::IntegrationTest
 
   test "should update line_item" do
     patch line_item_url(@line_item), params: { line_item: { product_id: @line_item.product_id } }
-    # assert_redirected_to line_item_url(@line_item)
+    # assert_redirected_to store_path
     assert_response :success
   end
 
@@ -46,6 +46,21 @@ class LineItemsControllerTest < ActionDispatch::IntegrationTest
       delete line_item_url(@line_item)
     end
 
-    assert_redirected_to cart_path(session[:cart_id])
+    assert_redirected_to store_url
+  end
+
+  test "should create line_item via ajax" do
+    assert_difference('LineItem.count') do
+      # post line_items_path, params: { product_id: products(:ruby).id }
+
+      post line_items_path, params: { product_id: products(:ruby).id }, xhr: true
+    end
+
+    assert_response :success
+
+    # rails-jquery gem에 포함되어 있음
+    assert_select_jquery :html, '#cart' do
+      assert_select 'tr#current_item td', /Programming Ruby 1.9/
+    end
   end
 end
