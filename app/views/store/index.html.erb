@@ -1,23 +1,30 @@
 <% if notice %>
-  <p id="notice"><%= notice %></p>
+  <aside id="notice"><%= notice %></aside>
 <% end %>
 
 <h1>Your Pragmatic Catalog</h1>
 
-<% if @v_counter > 5 %>
+<% if @v_counter ||= 0 > 5 %>
   <h4> 현재 이 카탈로그에 <%= pluralize(@v_counter, 'time') %> 방문했습니다.</h4>
 <% end %>
 
-<% @products.each do |product| %>
-  <div class="entry">
-    <%= image_tag(product.image_url) %>
-    <h3><%= product.title %></h3>
-    <%# 잠재적 보안 위협(html스타일을 그대로 실행함) %>
-    <%= sanitize(product.description) %>
-    <div class="price_line">
-      <%# https://apidock.com/rails/ActionView/Helpers/NumberHelper/number_to_currency %>
-      <span class="price"><%= number_to_currency(product.price) %></span>
-      <%= button_to 'Add to Cart', line_items_path(product_id: product), remote: true %>
-    </div>
-  </div>
-<% end %>
+<ul class="catalog">
+  <% cache @products do %>
+    <% @products.each do |product| %>
+      <% cache product do %>
+        <li>
+          <%= image_tag(product.image_url) %>
+          <h2><%= product.title %></h2>
+          <p>
+            <%= sanitize(product.description) %>
+          </p>
+          <div class="price">
+            <%= number_to_currency(product.price) %>
+            <%= button_to 'Add to Cart', line_items_path(product_id: product),
+                          remote: true %>
+          </div>
+        </li>
+      <% end %>
+    <% end %>
+  <% end %>
+</ul>

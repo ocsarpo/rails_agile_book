@@ -1,5 +1,6 @@
 class CartsController < ApplicationController
-  before_action :set_cart, only: [:show, :edit, :update]
+  before_action :set_cart, only: [:show, :edit, :update, :destroy]
+  rescue_from ActiveRecord::RecordNotFound, with: :invalid_cart
 
   # GET /carts
   # GET /carts.json
@@ -24,9 +25,7 @@ class CartsController < ApplicationController
   # POST /carts
   # POST /carts.json
   def create
-    # @cart = Cart.new(cart_params)
-    @cart = current_cart
-
+    @cart = Cart.new(cart_params)
     respond_to do |format|
       if @cart.save
         format.html { redirect_to @cart, notice: 'Cart was successfully created.' }
@@ -55,8 +54,7 @@ class CartsController < ApplicationController
   # DELETE /carts/1
   # DELETE /carts/1.json
   def destroy
-    @cart = current_cart
-    @cart.destroy
+    @cart.destroy if @cart.id == session[:cart_id]
     session[:cart_id] = nil
 
     respond_to do |format|
@@ -66,23 +64,18 @@ class CartsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_cart
-      begin
-        @cart = Cart.find(params[:id])
-      rescue ActiveRecord::RecordNotFound
-        logger.error "잘못된 카트 id에 접근시도 #{params[:id]}"
-        redirect_to store_url, notice: 'Invalid cart'
-      else
-        respond_to do |format|
-          format.html # show.html.erb / edit...
-          format.json { render json: @cart }
-        end
-      end
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_cart
+    @cart = Cart.find(params[:id])
+  end
 
-    # Only allow a list of trusted parameters through.
-    def cart_params
-      params.fetch(:cart, {})
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def cart_params
+    params.fetch(:cart, {})
+  end
+
+  def invalid_cart
+    logger.error "Attempt to access invalid cart #{params[:id]}"
+    redirect_to store_path, notice: 'Invalid cart'
+  end
 end

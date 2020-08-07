@@ -1,8 +1,10 @@
 class StoreController < ApplicationController
+  include CurrentCart
+  before_action :set_cart
+
   def index
     @v_counter = v_counter
     @products = Product.order(:title)
-    @cart = current_cart
   end
 
   private

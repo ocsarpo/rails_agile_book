@@ -6,9 +6,10 @@ class ProductsControllerTest < ActionDispatch::IntegrationTest
     @update = {
         title: 'Lorem Insum',
         description: 'Wibbles are fun!',
-        image_url: 'lorem.jpg',
+        image_url: 'ruby.jpg',
         price: 19.95
     }
+    @title = "The Great Book #{rand(1000)}"
   end
 
   test "should get index" do
@@ -58,7 +59,5 @@ class ProductsControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :success
     assert_select 'h1', 'Listing products'
-    assert_select '#columns #side a', minimum: 4
-    assert_select '.list_actions a', minimum: 3
   end
 end

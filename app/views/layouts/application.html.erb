@@ -9,31 +9,34 @@
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
-  <body class="<%= controller.controller_name %>">
-    <div id="banner">
-      <%= image_tag("logo.png") %>
-      <%= @page_title || "Pragmatic Bookshelf" %>
-    </div>
-    <div id="columns">
-      <div id="side">
-        <% if @cart %>
-          <%= hidden_div_if(@cart.line_items.empty?, id: "cart") do %>
-            <%= render @cart %>
-          <% end %>
-        <% end %>
+  <body class="main">
+    <header class="main">
+      <%= image_tag 'logo.png', alt: 'The Pragmatic Bookshelf' %>
+      <h1><%= @page_title || "Pragmatic Bookshelf" %></h1>
+    </header>
+    <section class="content">
+      <nav class="side_nav">
+        <div id="cart" class="carts">
+          <%= render_if @cart && @cart.line_items.any?, @cart %>
+          <%# if @cart %>
+            <%#= hidden_div_if(@cart.line_items.empty?, id: "cart") do %>
+              <%#= render @cart %>
+            <%# end %>
+          <%# end %>
+        </div>
+
         <ul>
           <li style="color: white;"><%= @time %></li>
           <li><a href="<%= store_path %>">Home</a></li>
-          <li><a href="http://www.../faq">Questions</a></li>
-          <li><a href="http://www.../news">News</a></li>
-          <li><a href="http://www.../contact">Contact</a></li>
+          <li><a href="/questions">Questions</a></li>
+          <li><a href="/news">News</a></li>
+          <li><a href="/contact">Contact</a></li>
         </ul>
-      </div>
-      <div id="main">
+      </nav>
+      <main class='<%= controller.controller_name %>'>
         <%= yield %>
-      </div>
-    </div>
-
+      </main>
+    </section>
     <%= javascript_pack_tag 'store' %>
   </body>
 </html>
