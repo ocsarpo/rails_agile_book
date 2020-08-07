@@ -1,4 +1,2 @@
-$("#cart").html("<%= j render @cart %>");
-
-$notice = $("#notice");
-$notice.hide();
+cart = document.getElementById("cart")
+cart.innerHTML = "<%= j render(@cart) %>"
