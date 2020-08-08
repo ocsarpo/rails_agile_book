@@ -1,5 +1,6 @@
 class OrdersController < ApplicationController
   include CurrentCart
+  skip_before_action :authorize, only: [:new, :create]
   before_action :set_cart, only: [:new, :create]
   before_action :ensure_cart_isnt_empty, only: :new
   before_action :set_order, only: [:show, :edit, :update, :destroy]
@@ -35,7 +36,7 @@ class OrdersController < ApplicationController
         Cart.destroy(session[:cart_id])
         session[:cart_id] = nil
         ChargeOrderJob.perform_later(@order, pay_type_params.to_h)
-        format.html { redirect_to store_path, notice: 'Thank you for your order.' }
+        format.html { redirect_to store_index_path, notice: 'Thank you for your order.' }
         format.json { render :show, status: :created, location: @order }
       else
         format.html { render :new }
@@ -81,7 +82,7 @@ class OrdersController < ApplicationController
 
   def ensure_cart_isnt_empty
     if @cart.line_items.empty?
-      redirect_to store_path, notice: 'Your cart is empty'
+      redirect_to store_index_path, notice: 'Your cart is empty'
     end
   end
 

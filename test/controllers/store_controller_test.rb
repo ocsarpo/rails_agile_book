@@ -2,7 +2,7 @@ require 'test_helper'
 
 class StoreControllerTest < ActionDispatch::IntegrationTest
   test "should get index" do
-    get store_path
+    get store_index_path
     assert_response :success
     assert_select 'nav.side_nav a', minimum: 4
     assert_select 'main ul.catalog li', 3
@@ -11,7 +11,7 @@ class StoreControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "markup needed for store.js is in place" do
-    get store_path
+    get store_index_path
     assert_select '.store .catalog > li > img', 3
     assert_select '.catalog input[type=submit]', 3
   end

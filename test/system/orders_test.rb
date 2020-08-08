@@ -26,7 +26,7 @@ class OrdersTest < ApplicationSystemTestCase
     LineItem.delete_all
     Order.delete_all
 
-    visit store_path
+    visit store_index_path
 
     click_on 'Add to Cart', match: :first
 
